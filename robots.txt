@@ -1,0 +1,32 @@
+# Filter for all robots
+User-agent: *
+
+# Avoid duplicate content by disallowing any URL with parameters (use url-rewrite only) 
+Disallow: /*?*
+
+# Disallow backend directories
+Disallow: /backup
+Disallow: /config
+Disallow: /controllers
+Disallow: /framework
+Disallow: /front_controllers
+#Disallow: /cache
+#Disallow: /logs
+#Disallow: /templates
+#Disallow: /views
+
+# Allow public available content
+Allow: /static
+Allow: /skyduino
+
+# Disallow backend controller
+Disallow: /admin
+Disallow: /user
+Disallow: /rpc
+
+# Just to be sure (no CGI over here captain !)
+Disallow: /cgi-bin
+Disallow: /*.php$
+
+# Not really usefull to be here but mom say to do that, so ...
+Sitemap: http://skywodd.net/sitemap.xml

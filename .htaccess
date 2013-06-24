@@ -1,0 +1,13 @@
+# OVH PHP configuration
+SetEnv PHP_VER 5_4
+SetEnv REGISTER_GLOBALS 0
+
+# Apache mod_indexer configuration
+Options -Indexes
+IndexIgnore */*
+
+# URL rewrite configuration
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php
