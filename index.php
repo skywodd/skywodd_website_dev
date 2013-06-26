@@ -19,6 +19,8 @@
 
 echo '<h1>SOON</h1>';
 
+echo '<!-- ' . $_SERVER['REQUEST_URI'] . ' -->';
+
 // TODO everything
 
 ?>

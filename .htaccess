@@ -13,9 +13,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* index.php
 
 # URL rewrite configuration for www redirection
-RewriteCond %{HTTP_HOST} ^www\.skywodd\.net$ [OR]
-RewriteCond %{HTTP_HOST} ^skywodd\.com$ [OR]
-RewriteCond %{HTTP_HOST} ^www\.skywodd\.com$ [OR]
-RewriteCond %{HTTP_HOST} ^skywodd\.fr$ [OR]
-RewriteCond %{HTTP_HOST} ^www\.skywodd\.fr$
+RewriteCond %{HTTP_HOST} ^www\.skywodd\.net$
 RewriteRule ^(.*) http://skywodd.net/$1 [QSA,L,R=301]
