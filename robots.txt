@@ -9,7 +9,6 @@ Disallow: /backup
 Disallow: /config
 Disallow: /controllers
 Disallow: /framework
-Disallow: /front_controllers
 Disallow: /cache
 Disallow: /logs
 #Disallow: /templates
