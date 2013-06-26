@@ -10,8 +10,10 @@ IndexIgnore */*
 RewriteEngine On
 
 # URL rewrite configuration for www redirection
-RewriteCond %{HTTP_HOST} ^www\.skywodd\.net$
-RewriteRule ^(.*) http://skywodd.net/$1 [L,R=301]
+RewriteCond %{HTTP_HOST} !^skywodd\.net [NC]
+RewriteCond %{HTTP_HOST} !^static.skywodd\.net [NC]
+RewriteCond %{HTTP_HOST} !^$
+RewriteRule ^/?(.*) http://skywodd.net/$1 [L,R=301,NE]
 
 # URL rewrite configuration for friendly-url
 RewriteCond %{REQUEST_FILENAME} !-f
