@@ -10,10 +10,10 @@ Disallow: /config
 Disallow: /controllers
 Disallow: /framework
 Disallow: /front_controllers
-#Disallow: /cache
-#Disallow: /logs
+Disallow: /cache
+Disallow: /logs
 #Disallow: /templates
-#Disallow: /views
+Disallow: /views
 
 # Allow public available content
 Allow: /static

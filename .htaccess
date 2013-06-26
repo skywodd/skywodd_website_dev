@@ -6,8 +6,16 @@ SetEnv REGISTER_GLOBALS 0
 Options -Indexes
 IndexIgnore */*
 
-# URL rewrite configuration
+# URL rewrite configuration for friendly-url
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* index.php
+
+# URL rewrite configuration for www redirection
+RewriteCond %{HTTP_HOST} ^www\.skywodd\.net$ [OR]
+RewriteCond %{HTTP_HOST} ^skywodd\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.skywodd\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^skywodd\.fr$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.skywodd\.fr$
+RewriteRule ^(.*) http://skywodd.net/$1 [QSA,L,R=301]
