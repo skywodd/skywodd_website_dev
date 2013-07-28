@@ -2,18 +2,16 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `skywoddmaindb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+CREATE SCHEMA IF NOT EXISTS `skywoddmaindb` DEFAULT CHARACTER SET utf8 ;
 USE `skywoddmaindb` ;
 
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Group`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Group` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Group` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `Name` VARCHAR(255) NOT NULL ,
-  `Brief` VARCHAR(255) NULL DEFAULT '' ,
+  `Brief` VARCHAR(255) NULL DEFAULT NULL ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Name_UNIQUE` (`Name` ASC) )
 ENGINE = InnoDB;
@@ -22,30 +20,26 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`User`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`User` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`User` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `Nickname` VARCHAR(255) NOT NULL ,
-  `DisplayName` VARCHAR(255) NULL DEFAULT '' ,
+  `DisplayName` VARCHAR(255) NULL DEFAULT NULL ,
   `Email` VARCHAR(255) NOT NULL ,
-  `PasswordHash` CHAR(64) NOT NULL ,
+  `PasswordHash` CHAR(128) NOT NULL ,
   `InscriptionDate` DATE NOT NULL ,
   `LastSeenDate` DATETIME NOT NULL ,
-  `WarningCount` TINYINT UNSIGNED NULL DEFAULT 0 ,
+  `WarningCount` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
   `Gender` TINYINT UNSIGNED NOT NULL ,
-  `Location` VARCHAR(255) NULL DEFAULT '' ,
+  `Location` VARCHAR(255) NULL DEFAULT NULL ,
   `Status` TINYINT UNSIGNED NOT NULL ,
-  `Slogan` VARCHAR(255) NULL DEFAULT '' ,
-  `Website` VARCHAR(255) NULL DEFAULT '' ,
-  `GroupeID` INTEGER NOT NULL ,
-  `TimezoneOffset` TINYINT NULL DEFAULT 0 ,
-  `PasswordSalt` CHAR(13) NOT NULL ,
-  `HideEmail` TINYINT(1) NULL DEFAULT TRUE ,
-  `ShowOnline` TINYINT(1) NULL DEFAULT TRUE ,
-  `LastLoginIP` VARCHAR(39) NULL DEFAULT '' ,
-  `FailedLoginCount` TINYINT UNSIGNED NULL DEFAULT 0 ,
-  `LoginLockedUntil` DATETIME NULL DEFAULT NULL ,
+  `Slogan` VARCHAR(255) NULL DEFAULT NULL ,
+  `Website` VARCHAR(255) NULL DEFAULT NULL ,
+  `GroupeID` INT NOT NULL ,
+  `TimezoneOffset` TINYINT NOT NULL DEFAULT 0 ,
+  `PasswordSalt` CHAR(23) NOT NULL ,
+  `HideEmail` TINYINT(1) NOT NULL DEFAULT TRUE ,
+  `ShowOnline` TINYINT(1) NOT NULL DEFAULT TRUE ,
+  `LastLoginIP` VARCHAR(39) NOT NULL ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Nickname_UNIQUE` (`Nickname` ASC) ,
   UNIQUE INDEX `Email_UNIQUE` (`Email` ASC) ,
@@ -61,12 +55,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Permission`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Permission` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Permission` (
-  `GroupID` INTEGER NOT NULL ,
+  `GroupID` INT NOT NULL ,
   `Type` SMALLINT UNSIGNED NOT NULL ,
-  `Value` TINYINT(1) NULL DEFAULT FALSE ,
+  `Value` TINYINT(1) NOT NULL DEFAULT FALSE ,
   PRIMARY KEY (`GroupID`, `Type`) ,
   INDEX `GroupID_FK_idx` (`GroupID` ASC) ,
   CONSTRAINT `GroupID_FK`
@@ -80,12 +72,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`UserWarning`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`UserWarning` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`UserWarning` (
-  `UserID` INTEGER NOT NULL ,
+  `UserID` INT NOT NULL ,
   `WarningDate` DATETIME NOT NULL ,
-  `FromUserID` INTEGER NOT NULL ,
+  `FromUserID` INT NOT NULL ,
   `Reason` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`UserID`, `WarningDate`) ,
   INDEX `UserID_FK_idx` (`UserID` ASC) ,
@@ -106,14 +96,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`UserBan`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`UserBan` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`UserBan` (
-  `UserID` INTEGER NOT NULL ,
+  `UserID` INT NOT NULL ,
   `BanDate` DATETIME NOT NULL ,
-  `FromUserID` INTEGER NOT NULL ,
+  `FromUserID` INT NOT NULL ,
   `Reason` VARCHAR(255) NOT NULL ,
-  `PermanentBan` TINYINT(1) NULL DEFAULT FALSE ,
+  `PermanentBan` TINYINT(1) NOT NULL ,
   `ExpireDate` DATETIME NULL DEFAULT NULL ,
   PRIMARY KEY (`UserID`, `BanDate`) ,
   INDEX `FromUserID_idx` (`FromUserID` ASC) ,
@@ -134,12 +122,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`LoginLog`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`LoginLog` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`LoginLog` (
-  `UserID` INTEGER NOT NULL ,
+  `UserID` INT NOT NULL ,
   `LogDate` DATETIME NOT NULL ,
-  `FromAddress` VARCHAR(39) NOT NULL ,
+  `FromAddress` VARCHAR(255) NOT NULL ,
   `LoginSuccess` TINYINT(1) NOT NULL ,
   `LoginMethod` TINYINT UNSIGNED NOT NULL ,
   PRIMARY KEY (`UserID`, `LogDate`) ,
@@ -155,8 +141,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`ForbiddenString`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`ForbiddenString` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`ForbiddenString` (
   `Value` VARCHAR(255) NOT NULL ,
   `Type` TINYINT UNSIGNED NOT NULL ,
@@ -167,29 +151,26 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`License`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`License` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`License` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(255) NOT NULL ,
-  `Brief` TEXT NULL DEFAULT '' ,
-  `Url` VARCHAR(255) NULL DEFAULT '' ,
-  `Usage` TEXT NULL DEFAULT '' ,
-  `ThumbnailUrl` VARCHAR(255) NULL DEFAULT '' ,
+  `Acronym` VARCHAR(255) NOT NULL ,
+  `Brief` TEXT NULL DEFAULT NULL ,
+  `Url` VARCHAR(255) NULL DEFAULT NULL ,
+  `Usage` TEXT NULL DEFAULT NULL ,
+  `ThumbnailUrl` VARCHAR(255) NULL DEFAULT NULL ,
   PRIMARY KEY (`ID`) ,
-  UNIQUE INDEX `Title_UNIQUE` (`Title` ASC) )
+  UNIQUE INDEX `Acronym_UNIQUE` (`Acronym` ASC) )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Keyword`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Keyword` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Keyword` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `Keyword` VARCHAR(255) NOT NULL ,
-  `UsedCount` INTEGER UNSIGNED NULL DEFAULT 0 ,
+  `UsedCount` INT UNSIGNED NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Keyword_UNIQUE` (`Keyword` ASC) )
 ENGINE = InnoDB;
@@ -198,13 +179,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Category`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Category` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Category` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(255) NOT NULL ,
-  `Brief` TEXT NULL DEFAULT '' ,
-  `ParentID` INTEGER NULL DEFAULT -1 ,
+  `Brief` TEXT NULL DEFAULT NULL ,
+  `ParentID` INT NULL DEFAULT NULL ,
+  `ChildCount` INT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Title_UNIQUE` (`Title` ASC) ,
   INDEX `ParentID_FK_idx` (`ParentID` ASC) ,
@@ -219,31 +199,28 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Publication`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Publication` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Publication` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(255) NOT NULL ,
   `Permalink` VARCHAR(255) NOT NULL ,
   `PublishDate` DATETIME NOT NULL ,
-  `AuthorID` INTEGER NOT NULL ,
-  `LicenseID` INTEGER NOT NULL ,
-  `Brief` VARCHAR(255) NULL DEFAULT '' ,
+  `AuthorID` INT NOT NULL ,
+  `LicenseID` INT NOT NULL ,
+  `Brief` VARCHAR(255) NULL DEFAULT NULL ,
   `Status` TINYINT NOT NULL ,
   `Type` TINYINT NOT NULL ,
-  `LockedByUserID` INTEGER NULL DEFAULT -1 ,
+  `LockedByUserID` INT NULL DEFAULT NULL ,
   `LockedFromDate` DATETIME NULL DEFAULT NULL ,
-  `CommentAllowed` TINYINT(1) NULL DEFAULT TRUE ,
-  `PingAllowed` TINYINT(1) NULL DEFAULT TRUE ,
-  `Password` VARCHAR(255) NULL DEFAULT '' ,
-  `Sticky` TINYINT(1) NULL DEFAULT FALSE ,
-  `CommentCount` INTEGER NULL DEFAULT 0 ,
+  `CommentAllowed` TINYINT(1) NOT NULL DEFAULT TRUE ,
+  `PingAllowed` TINYINT(1) NOT NULL DEFAULT TRUE ,
+  `Password` VARCHAR(255) NULL DEFAULT NULL ,
+  `Sticky` TINYINT(1) NOT NULL DEFAULT FALSE ,
+  `CommentCount` INT UNSIGNED NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Permalink_UNIQUE` (`Permalink` ASC) ,
   INDEX `AuthorID_FK_idx` (`AuthorID` ASC) ,
   INDEX `LicenseID_FK_idx` (`LicenseID` ASC) ,
   INDEX `LockedByUserID_FK_idx` (`LockedByUserID` ASC) ,
-  UNIQUE INDEX `Title_UNIQUE` (`Title` ASC) ,
   CONSTRAINT `AuthorID_FK`
     FOREIGN KEY (`AuthorID` )
     REFERENCES `skywoddmaindb`.`User` (`ID` )
@@ -265,11 +242,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`KeywordAssocation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`KeywordAssocation` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`KeywordAssocation` (
-  `PublicationID` INTEGER NOT NULL ,
-  `KeywordID` INTEGER NOT NULL ,
+  `PublicationID` INT NOT NULL ,
+  `KeywordID` INT NOT NULL ,
   PRIMARY KEY (`PublicationID`, `KeywordID`) ,
   INDEX `KeywordID_FK_idx` (`KeywordID` ASC) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
@@ -289,11 +264,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`CategoryAssocation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`CategoryAssocation` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`CategoryAssocation` (
-  `PublicationID` INTEGER NOT NULL ,
-  `CategoryID` INTEGER NOT NULL ,
+  `PublicationID` INT NOT NULL ,
+  `CategoryID` INT NOT NULL ,
   PRIMARY KEY (`PublicationID`, `CategoryID`) ,
   INDEX `CategoryID_FK_idx` (`CategoryID` ASC) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
@@ -313,17 +286,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Revision`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Revision` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Revision` (
-  `PublicationID` INTEGER NOT NULL ,
-  `RevisionNumber` INTEGER NOT NULL ,
+  `PublicationID` INT NOT NULL ,
   `RevisionDate` DATETIME NOT NULL ,
-  `AuthorID` INTEGER NOT NULL ,
-  `RevisionMessage` VARCHAR(255) NULL DEFAULT '' ,
-  `MinorChange` TINYINT(1) NULL DEFAULT FALSE ,
+  `AuthorID` INT NOT NULL ,
+  `RevisionMessage` VARCHAR(255) NULL DEFAULT NULL ,
+  `MinorChange` TINYINT(1) NOT NULL DEFAULT FALSE ,
   `Content` LONGTEXT NOT NULL ,
-  PRIMARY KEY (`PublicationID`, `RevisionNumber`) ,
+  PRIMARY KEY (`PublicationID`, `RevisionDate`) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
   INDEX `AuthorID_FK_idx` (`AuthorID` ASC) ,
   CONSTRAINT `PublicationID_FK`
@@ -342,10 +312,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`ConfirmationKey`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`ConfirmationKey` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`ConfirmationKey` (
-  `UserID` INTEGER NOT NULL ,
+  `UserID` INT NOT NULL ,
   `Action` TINYINT UNSIGNED NOT NULL ,
   `GenerationDate` DATETIME NOT NULL ,
   `Key` CHAR(23) NOT NULL ,
@@ -362,17 +330,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Comment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Comment` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Comment` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
-  `PublicationID` INTEGER NOT NULL ,
-  `AuthorID` INTEGER NOT NULL ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `PublicationID` INT NOT NULL ,
+  `AuthorID` INT NOT NULL ,
   `IpAddress` VARCHAR(39) NOT NULL ,
   `CommentDate` DATETIME NOT NULL ,
   `Status` TINYINT UNSIGNED NOT NULL ,
-  `ParentID` INTEGER NULL DEFAULT -1 ,
-  `ParentTreeCount` TINYINT NULL DEFAULT 0 ,
+  `ParentID` INT NULL DEFAULT NULL ,
+  `ParentTreeCount` TINYINT NOT NULL DEFAULT 0 ,
+  `ChildCount` INT NOT NULL DEFAULT 0 ,
   `Content` LONGTEXT NOT NULL ,
   PRIMARY KEY (`ID`) ,
   INDEX `ParentID_FK_idx` (`ParentID` ASC) ,
@@ -399,17 +366,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`PublicationBundle`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`PublicationBundle` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`PublicationBundle` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(255) NOT NULL ,
   `Permalink` VARCHAR(255) NOT NULL ,
-  `Brief` TEXT NULL DEFAULT '' ,
+  `Brief` TEXT NULL DEFAULT NULL ,
   `PublishDate` DATETIME NOT NULL ,
   `Status` TINYINT UNSIGNED NOT NULL ,
-  `Sticky` TINYINT(1) NULL DEFAULT FALSE ,
-  `PageCount` INTEGER NULL DEFAULT 0 ,
+  `Sticky` TINYINT(1) NOT NULL DEFAULT FALSE ,
+  `PageCount` SMALLINT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Permalink_UNIQUE` (`Permalink` ASC) )
 ENGINE = InnoDB;
@@ -418,11 +383,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`BundleAssociation`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`BundleAssociation` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`BundleAssociation` (
-  `BundleID` INTEGER NOT NULL ,
-  `PublicationID` INTEGER NOT NULL ,
+  `BundleID` INT NOT NULL ,
+  `PublicationID` INT NOT NULL ,
   `PageNumber` SMALLINT UNSIGNED NOT NULL ,
   PRIMARY KEY (`BundleID`, `PublicationID`) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
@@ -443,11 +406,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`Mimetype`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`Mimetype` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Mimetype` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
-  `Mimetype` VARCHAR(255) NULL ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `Mimetype` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Mimetype_UNIQUE` (`Mimetype` ASC) )
 ENGINE = InnoDB;
@@ -456,23 +417,21 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`FileAttachment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`FileAttachment` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`FileAttachment` (
-  `ID` INTEGER NOT NULL AUTO_INCREMENT ,
+  `ID` INT NOT NULL AUTO_INCREMENT ,
   `RealName` VARCHAR(255) NOT NULL ,
   `Extension` VARCHAR(255) NOT NULL ,
-  `Mimetype` INTEGER NOT NULL ,
-  `AnonymiseFilename` TINYINT(1) NULL DEFAULT FALSE ,
-  `FileSize` INTEGER UNSIGNED NOT NULL ,
+  `Mimetype` INT NOT NULL ,
+  `AnonymiseFilename` TINYINT(1) NOT NULL ,
+  `FileSize` INT UNSIGNED NOT NULL ,
   `UploadDate` DATETIME NOT NULL ,
-  `UploadByUserID` INTEGER NOT NULL ,
-  `Password` VARCHAR(255) NULL DEFAULT '' ,
-  `Brief` TEXT NULL DEFAULT '' ,
-  `LicenseID` INTEGER NOT NULL ,
+  `UploadByUserID` INT NOT NULL ,
+  `Password` VARCHAR(255) NULL DEFAULT NULL ,
+  `Brief` TEXT NULL DEFAULT NULL ,
+  `LicenseID` INT NOT NULL ,
   `Permalink` VARCHAR(255) NOT NULL ,
-  `Status` TINYINT UNSIGNED NULL DEFAULT 0 ,
-  `DownloadCount` INTEGER UNSIGNED NULL DEFAULT 0 ,
+  `Status` TINYINT UNSIGNED NOT NULL ,
+  `DownloadCount` INT UNSIGNED NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Permalink_UNIQUE` (`Permalink` ASC) ,
   INDEX `MimetypeID_FK_idx` (`Mimetype` ASC) ,
@@ -499,15 +458,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`ImageAttachment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`ImageAttachment` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`ImageAttachment` (
-  `AttachmentID` INTEGER NOT NULL ,
+  `AttachmentID` INT NOT NULL ,
   `Type` TINYINT UNSIGNED NOT NULL ,
-  `Legend` VARCHAR(255) NULL DEFAULT '' ,
-  `AltBrief` VARCHAR(255) NULL DEFAULT '' ,
-  `Height` INT(11) NOT NULL ,
-  `Width` INT(11) NOT NULL ,
+  `Legend` VARCHAR(255) NULL DEFAULT NULL ,
+  `AltBrief` VARCHAR(255) NULL DEFAULT NULL ,
+  `Height` INT NOT NULL ,
+  `Width` INT NOT NULL ,
   PRIMARY KEY (`AttachmentID`, `Type`) ,
   INDEX `AttachmentID_FK_idx` (`AttachmentID` ASC) ,
   CONSTRAINT `AttachmentID_FK`
@@ -521,11 +478,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`SkyduinoConversion`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`SkyduinoConversion` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`SkyduinoConversion` (
   `OldPermalink` VARCHAR(255) NOT NULL ,
-  `PublicationID` INTEGER NOT NULL ,
+  `PublicationID` INT NOT NULL ,
   `Status` TINYINT UNSIGNED NOT NULL ,
   PRIMARY KEY (`OldPermalink`) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
@@ -540,10 +495,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `skywoddmaindb`.`PublicationMeta`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `skywoddmaindb`.`PublicationMeta` ;
-
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`PublicationMeta` (
-  `PublicationID` INTEGER NOT NULL ,
+  `PublicationID` INT NOT NULL ,
   `MetaType` TINYINT NOT NULL ,
   `SerializedValue` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`PublicationID`, `MetaType`) ,
