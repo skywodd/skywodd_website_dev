@@ -6,15 +6,15 @@ Disallow: /*?*
 
 # Disallow backend directories
 Disallow: /backup
+Disallow: /cache
 Disallow: /config
 Disallow: /controllers
 Disallow: /framework
-Disallow: /cache
 Disallow: /logs
-#Disallow: /templates
+Disallow: /vendor
 Disallow: /views
 
-# Allow public available content
+# Allow public available content/controller
 Allow: /static
 Allow: /skyduino
 
