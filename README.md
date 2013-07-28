@@ -1,10 +1,10 @@
-# Skywodd website - "home made" CMS & framework
+# Skywodd's home made website 2.0
 ## by SkyWodd
 
 ### Introduction
 
-Skywodd v2.0 website is on the go !
-No more wordpress blog, no more restricted functionnalities, themes nor plugins.
+This new website CMS & framework is designed to replace my old wordpress based blog.
+No more restrictions, no more wordpress, just what I need when I need it.
 
 ---
 ### Why this repo ?
@@ -28,3 +28,4 @@ Languages used :
 + MySQL
 + HTML5 / CSS3
 + Javascript + Jquery
++ Some other stuff like JSON, XML, ...
