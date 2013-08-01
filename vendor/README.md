@@ -3,8 +3,7 @@
 ---
 ## Purpose
 
-All PHP classes not made by myself are stored here.
-For better usability php classes must be stored in subdirectories.
+All PHP classes are stored here in subdirectories according PSR-0 standard.
 
 ---
 ## Access
