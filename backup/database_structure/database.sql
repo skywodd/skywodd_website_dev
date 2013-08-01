@@ -292,6 +292,7 @@ CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Revision` (
   `AuthorID` INT NOT NULL ,
   `RevisionMessage` VARCHAR(255) NULL DEFAULT NULL ,
   `MinorChange` TINYINT(1) NOT NULL DEFAULT FALSE ,
+  `PreviewDraft` TINYINT(1) NOT NULL DEFAULT TRUE ,
   `Content` LONGTEXT NOT NULL ,
   PRIMARY KEY (`PublicationID`, `RevisionDate`) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
