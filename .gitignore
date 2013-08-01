@@ -4,8 +4,6 @@
 
 # Netbean project files
 nbproject/*
-!nbproject/project.properties
-!nbproject/project.xml
 
 
 #############
