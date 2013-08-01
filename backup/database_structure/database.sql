@@ -340,6 +340,7 @@ CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Comment` (
   `ParentID` INT NULL DEFAULT NULL ,
   `ParentTreeCount` TINYINT NOT NULL DEFAULT 0 ,
   `ChildCount` INT NOT NULL DEFAULT 0 ,
+  `NotifyOnAnswer` TINYINT(1) NOT NULL DEFAULT TRUE ,
   `Content` LONGTEXT NOT NULL ,
   PRIMARY KEY (`ID`) ,
   INDEX `ParentID_FK_idx` (`ParentID` ASC) ,
