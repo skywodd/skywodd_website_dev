@@ -26,6 +26,7 @@
  */
 
 /* Low-level dependencies */
+require __DIR__ . '/config/baseconfig.php';      // Include the base configuration file
 require __DIR__ . '/vendor/PSR0ClassLoader.php'; // Include the PSR-0 compliant class loader
 
 /* Instantiate and register the class loader */
@@ -33,12 +34,31 @@ $classLoader = new PSR0ClassLoader('\\', __DIR__ . '/vendor');
 $classLoader->register();
 
 /* Top-level dependencies */
-use \Skywodd\Assertion\AssertionHandler; // Assertation handling toolkit
+use Skywodd\Assertion\AssertionHandler; // Assertation handling toolkit
+use Skywodd\Routing\HierarchicalRouter; // HMVC router
+use Skywodd\Routing\SimpleRoute;        // Simple route implementation
 
 /* Start assertion handling */
 AssertionHandler::start();
 
-/* Main index code */
-echo '<h1>SOON</h1>';
-// TODO everything else
+/* Get the requested URI ressource path and rebase it if necessary */
+if (BASE_ISROOT)
+    $ressourcePath = $_SERVER['REQUEST_URI'];
+else // Ressource path need to be rebased
+    $ressourcePath = HierarchicalRouter::rebaseRessourcePath($_SERVER['REQUEST_URI'], BASE_DIRECORY);
+
+/* Instantiate a new router */
+$router = new HierarchicalRouter(__DIR__ . '/controllers');
+
+/* Set default routes */
+$router->setDefaultHomeController('FrontMainController', 'home');
+$router->setDefaultErrorController('FrontErrorController');
+
+/* Add some custom routes */
+$router->addRoute(new SimpleRoute('hello', 'FrontMainController')); // Test route
+//TODO
+
+/* Start the routing process */
+$router->processRessourcePath($ressourcePath);
+
 ?>
