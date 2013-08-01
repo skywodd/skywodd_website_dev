@@ -66,7 +66,7 @@ class AssertionHandler {
         assert_options(ASSERT_BAIL, 1);       // Stop execution on failed asertion
 
         /* Register assertion handler */
-        assert_options(ASSERT_CALLBACK, 'AssertionHandler::handle');
+        assert_options(ASSERT_CALLBACK, 'Skywodd\\Assertion\\AssertionHandler::handle');
     }
 
     /**
