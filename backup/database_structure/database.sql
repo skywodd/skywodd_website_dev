@@ -39,7 +39,7 @@ CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`User` (
   `PasswordSalt` CHAR(23) NOT NULL ,
   `HideEmail` TINYINT(1) NOT NULL DEFAULT TRUE ,
   `ShowOnline` TINYINT(1) NOT NULL DEFAULT TRUE ,
-  `LastLoginIP` VARCHAR(39) NOT NULL ,
+  `LastLoginIP` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`ID`) ,
   UNIQUE INDEX `Nickname_UNIQUE` (`Nickname` ASC) ,
   UNIQUE INDEX `Email_UNIQUE` (`Email` ASC) ,
@@ -315,7 +315,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`ConfirmationKey` (
   `UserID` INT NOT NULL ,
-  `Action` TINYINT UNSIGNED NOT NULL ,
+  `Action` SMALLINT UNSIGNED NOT NULL ,
   `GenerationDate` DATETIME NOT NULL ,
   `Key` CHAR(23) NOT NULL ,
   PRIMARY KEY (`UserID`, `Action`) ,
@@ -389,9 +389,10 @@ CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`BundleAssociation` (
   `BundleID` INT NOT NULL ,
   `PublicationID` INT NOT NULL ,
   `PageNumber` SMALLINT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`BundleID`, `PublicationID`) ,
+  PRIMARY KEY (`BundleID`) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
   INDEX `BundleID_FK_idx` (`BundleID` ASC) ,
+  UNIQUE INDEX `PublicationID_UNIQUE` (`PublicationID` ASC) ,
   CONSTRAINT `BundleID_FK`
     FOREIGN KEY (`BundleID` )
     REFERENCES `skywoddmaindb`.`PublicationBundle` (`ID` )
@@ -499,7 +500,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`PublicationMeta` (
   `PublicationID` INT NOT NULL ,
-  `MetaType` TINYINT NOT NULL ,
+  `MetaType` SMALLINT NOT NULL ,
   `SerializedValue` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`PublicationID`, `MetaType`) ,
   INDEX `PublicationID_FK_idx` (`PublicationID` ASC) ,
