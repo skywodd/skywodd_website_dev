@@ -38,7 +38,7 @@ class Category {
     /**
      * Category ID
      *
-     * @var integer
+     * @var integer|null
      */
     protected $_id = 0;
 
@@ -52,14 +52,14 @@ class Category {
     /**
      * Category brief
      *
-     * @var string
+     * @var string|null
      */
     protected $_brief = '';
 
     /**
      * Parent category ID
      *
-     * @var integer
+     * @var integer|null
      */
     protected $_parentId = 0;
 
@@ -73,7 +73,7 @@ class Category {
     /**
      * Instantiate a new Cateogory object
      * 
-     * @param integer $categoryId Category ID (if already known)
+     * @param integer|null $categoryId Category ID (if already known)
      */
     public function __construct($categoryId = null) {
 
@@ -87,7 +87,7 @@ class Category {
     /**
      * Get the category ID
      * 
-     * @return integer
+     * @return integer|null
      */
     public function getId() {
         return $this->_id;
