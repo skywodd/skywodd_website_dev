@@ -37,6 +37,8 @@ $classLoader->register();
 use Skywodd\Assertion\AssertionHandler; // Assertation handling toolkit
 use Skywodd\Routing\HierarchicalRouter; // HMVC router
 use Skywodd\Routing\SimpleRoute;        // Simple route implementation
+use Skywodd\Routing\FileRoute;          // File base route implementation
+use Skywodd\Routing\RegexRoute;         // Regex base route implementation
 
 /* Start assertion handling */
 AssertionHandler::start();
@@ -51,12 +53,13 @@ else // Ressource path need to be rebased
 $router = new HierarchicalRouter(__DIR__ . '/controllers');
 
 /* Set default routes */
-$router->setDefaultHomeController('FrontMainController', 'home');
-$router->setDefaultErrorController('FrontErrorController');
+$router->setDefaultHomeController('HomeController', '');
+$router->setDefaultErrorController('ErrorController');
 
 /* Add some custom routes */
-$router->addRoute(new SimpleRoute('hello', 'FrontMainController')); // Test route
-//TODO
+$router->addRoute(new SimpleRoute('skyduino', 'SkyduinoController'));              // /skyduino route
+$router->addRoute(new FileRoute(__DIR__ . '/controllers', 'Front', 'Controller')); // Front controllers route
+//$router->addRoute(new RegexRoute('/^test-([0-9]+)-(.*)$/', 'FrontTestController', [1 => 'id', 2 => 'permalink']));
 
 /* Start the routing process */
 $router->processRessourcePath($ressourcePath);
