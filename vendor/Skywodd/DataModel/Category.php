@@ -197,7 +197,7 @@ class Category {
         
         /* Compute the new child count value */
         $this->_childCount += $number;
-        assert('$childCount >= 0');
+        assert('$this->_childCount >= 0');
     }
     
     /**
@@ -212,7 +212,7 @@ class Category {
         
         /* Compute the new child count value */
         $this->_childCount -= $number;
-        assert('$childCount >= 0');
+        assert('$this->_childCount >= 0');
     }
     
 }
