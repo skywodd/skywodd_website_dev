@@ -38,7 +38,7 @@ use Skywodd\Assertion\AssertionHandler; // Assertation handling toolkit
 use Skywodd\Routing\HierarchicalRouter; // HMVC router
 use Skywodd\Routing\SimpleRoute;        // Simple route implementation
 use Skywodd\Routing\FileRoute;          // File base route implementation
-use Skywodd\Routing\RegexRoute;         // Regex base route implementation
+//use Skywodd\Routing\RegexRoute;         // Regex base route implementation
 
 /* Start assertion handling */
 AssertionHandler::start();
