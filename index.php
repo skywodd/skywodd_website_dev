@@ -1,12 +1,15 @@
 <?php
 
 /**
- * Front-end file, dispatch all incoming requests to the rigth controller.
+ * Front-end file, dispatch all incoming requests.
+ * 
+ * This file is the front-end of the website, all incoming requests MUST go to this file (thanks to url rewriting).
+ * This file internaly dispatch incoming requests according to their URI and execute the controller code associated with this URI.
  * 
  * @author Fabien Batteix <skywodd@gmail.com>
  * @copyright Fabien Batteix 2013
- * @link http://skywodd.net
- * @package skywebsite
+ * @link http://skywodd.net My website
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3
  */
 /*
  * This file is part of Skywodd website.
@@ -29,7 +32,7 @@
 require __DIR__ . '/config/baseconfig.php';      // Include the base configuration file
 require __DIR__ . '/vendor/PSR0ClassLoader.php'; // Include the PSR-0 compliant class loader
 
-/* Instantiate and register the class loader */
+/* Instantiate and register the class loader to load classes at runtime */
 $classLoader = new PSR0ClassLoader('\\', __DIR__ . '/vendor');
 $classLoader->register();
 
@@ -37,19 +40,19 @@ $classLoader->register();
 use Skywodd\Assertion\AssertionHandler; // Assertation handling toolkit
 use Skywodd\Routing\HierarchicalRouter; // HMVC router
 use Skywodd\Routing\SimpleRoute;        // Simple route implementation
-use Skywodd\Routing\FileRoute;          // File base route implementation
-//use Skywodd\Routing\RegexRoute;         // Regex base route implementation
+use Skywodd\Routing\FileRoute;          // File based route implementation
+//use Skywodd\Routing\RegexRoute;         // Regex based route implementation
 
-/* Start assertion handling */
+/* Start assertions handling */
 AssertionHandler::start();
 
 /* Get the requested URI ressource path and rebase it if necessary */
-if (BASE_ISROOT)
+if (BASE_IS_ROOT)
     $ressourcePath = $_SERVER['REQUEST_URI'];
-else // Ressource path need to be rebased
+else // Ressource path need to be rebased before use
     $ressourcePath = HierarchicalRouter::rebaseRessourcePath($_SERVER['REQUEST_URI'], BASE_DIRECORY);
 
-/* Instantiate a new router */
+/* Instantiate a new hierarchical router */
 $router = new HierarchicalRouter(__DIR__ . '/controllers');
 
 /* Set default routes */
@@ -58,7 +61,7 @@ $router->setDefaultErrorController('ErrorController');
 
 /* Add some custom routes */
 $router->addRoute(new SimpleRoute('skyduino', 'SkyduinoController'));              // /skyduino route
-$router->addRoute(new FileRoute(__DIR__ . '/controllers', 'Front', 'Controller')); // Front controllers route
+$router->addRoute(new FileRoute(__DIR__ . '/controllers', 'Front', 'Controller')); // Front controllers routes
 //$router->addRoute(new RegexRoute('/^test-([0-9]+)-(.*)$/', 'FrontTestController', [1 => 'id', 2 => 'permalink']));
 
 /* Start the routing process */
