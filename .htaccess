@@ -1,8 +1,11 @@
-# OVH PHP configuration
+# PHP configuration
+## Use PHP 5.4 engine
 SetEnv PHP_VER 5_4
+## Disable register globals
 SetEnv REGISTER_GLOBALS 0
 
 # Apache mod_indexer configuration
+## No indexes for all files
 Options -Indexes
 IndexIgnore */*
 
@@ -15,7 +18,7 @@ RewriteEngine On
 #RewriteCond %{HTTP_HOST} !^$
 #RewriteRule ^/?(.*) http://skywodd.net/$1 [L,R=301,NE]
 
-# URL rewrite configuration for friendly-url
+# URL rewrite configuration for friendly url
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php
