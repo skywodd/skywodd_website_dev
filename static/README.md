@@ -3,9 +3,10 @@
 ---
 ## Purpose
 
-Store all static ressource files.
+This directory and his sub-directories are used to store all static ressource files.
 
-Ressource files are splited in four directories :
+Actually ressource files are splited in four directories :
+
 + css for all cascaded style sheets
 + img for all basic pictures, icons, ...
 + js for all javascript source files
@@ -14,7 +15,9 @@ Ressource files are splited in four directories :
 ---
 ## Access
 
-Allow from all.
+Anyone can access, download, view files in this directory and sub-directories.
+
+Remarks: Directory listing is set according to the parent directory comfiguration.
 
 ---
 ## Remarks
