@@ -46,11 +46,11 @@ use Skywodd\Routing\FileRoute;          // File based route implementation
 /* Start assertions handling */
 AssertionHandler::start();
 
-/* Get the requested URI ressource path and rebase it if necessary */
+/* Get the requested URI resource path and rebase it if necessary */
 if (BASE_IS_ROOT)
-    $ressourcePath = $_SERVER['REQUEST_URI'];
-else // Ressource path need to be rebased before use
-    $ressourcePath = HierarchicalRouter::rebaseRessourcePath($_SERVER['REQUEST_URI'], BASE_DIRECORY);
+    $resourcePath = $_SERVER['REQUEST_URI'];
+else // Resource path need to be rebased before use
+    $resourcePath = HierarchicalRouter::rebaseResourcePath($_SERVER['REQUEST_URI'], BASE_DIRECORY);
 
 /* Instantiate a new hierarchical router */
 $router = new HierarchicalRouter(__DIR__ . '/controllers');
@@ -65,6 +65,6 @@ $router->addRoute(new FileRoute(__DIR__ . '/controllers', 'Front', 'Controller')
 //$router->addRoute(new RegexRoute('/^test-([0-9]+)-(.*)$/', 'FrontTestController', [1 => 'id', 2 => 'permalink']));
 
 /* Start the routing process */
-$router->processRessourcePath($ressourcePath);
+$router->processResourcePath($resourcePath);
 
 ?>
