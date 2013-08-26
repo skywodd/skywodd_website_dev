@@ -1,7 +1,11 @@
 # Public access to all files
 allow from all
 
-# Apache mod_indexer configuration
-## No indexes for all files
-Options -Indexes
-IndexIgnore */*
+# No index for all files and no CGI execution (for security of "upload" directory)
+OPTIONS -ExecCGI -Indexes
+
+# YOU SHALL NOT PASS
+<FilesMatch "\.(php[3-9]?|phtml)$">  
+Order Deny,Allow
+Deny from All
+</FilesMatch>
