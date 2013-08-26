@@ -1,25 +1,116 @@
-# PHP configuration
-## Use PHP 5.4 engine
+## PHP configuration
+##
+
+# Use PHP 5.4 engine
 SetEnv PHP_VER 5_4
-## Disable register globals
+
+# Disable register globals
 SetEnv REGISTER_GLOBALS 0
 
-# Apache mod_indexer configuration
-## No indexes for all files
-Options -Indexes
-IndexIgnore */*
+## Apache configuration
+## 
 
-# URL rewrite engine on
+# Avoid access to unsecure htaccess files
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+# Index file
+DirectoryIndex index.php
+
+# No indexes for all files
+Options -Indexes
+
+# Let's play a game
 RewriteEngine On
 
-# URL rewrite configuration for www redirection
+
+## Basic and advanced HTACCESS protection against evil web bot and pirates
+## Thanks to http://ralph.davidovits.net/internet/se-proteger-des-pirates-et-hackers.html
+
+# Exception: any bot can access to this files
+RewriteCond %{REQUEST_URI} !^/robots.txt
+RewriteCond %{REQUEST_URI} !^/sitemap.xml
+
+# Get the fuck out
+RewriteCond %{HTTP_USER_AGENT} ^-?$ [OR] # No user agent ? Well, kiss my ass
+RewriteCond %{HTTP_USER_AGENT} ^[bcdfghjklmnpqrstvwxz\ ]{8,}|^[0-9a-z]{15,}|^[0-9A-Za-z]{19,}|^[A-Za-z]{3,}\ [a-z]{4,}\ [a-z]{4,} [OR] ## Random user agent ? Kiss my ass twice
+RewriteCond %{HTTP_USER_AGENT} ^<sc|<\?|^adwords|@nonymouse|Advanced\ Email\ Extractor|almaden|anonymous|Art-Online|autoemailspider|blogsearchbot-martin|CherryPicker|compatible\ \;|Crescent\ Internet\ ToolPack|Digger|DirectUpdate|Download\ Accelerator|^eCatch|echo\ extense|EmailCollector|EmailWolf|Extractor|flashget|frontpage|Go!Zilla|grub\ crawler|HTTPConnect|httplib|HttpProxy|HTTP\ agent|HTTrack|^ia_archive|IDBot|id-search|Indy\ Library|^Internet\ Explorer|^IPiumBot|Jakarta\ Commons|^Kapere|Microsoft\ Data|Microsoft\ URL|^minibot\(NaverRobot\)|^Moozilla|^Mozilla$|^MSIE|MJ12bot|Movable\ Type|NICErsPRO|^NPBot|Nutch|Nutscrape/|^Offline\ Explorer|^Offline\ Navigator|OmniExplorer|^Program\ Shareware|psycheclone|PussyCat|PycURL|python|QuepasaCreep|SiteMapper|Star\ Downloader|sucker|SurveyBot|Teleport\ Pro|Telesoft|TrackBack|Turing|TurnitinBot|^user|^User-Agent:\ |^User\ Agent:\ |vobsub|webbandit|WebCapture|webcollage|WebCopier|WebDAV|WebEmailExtractor|WebReaper|WEBsaver|WebStripper|WebZIP|widows|Wysigot|Zeus|Zeus.*Webster [NC,OR] # Block bad bot
+RewriteCond %{HTTP_USER_AGENT} ^curl|^Fetch\ API\ Request|GT\:\:WWW|^HTTP\:\:Lite|httplib|^Java/1.|^Java\ 1.|^LWP|libWeb|libwww|^PEAR|PECL\:\:HTTP|PHPCrawl|python|Rsync|Snoopy|^URI\:\:Fetch|WebDAV|^Wget [NC] # Block various HTTP libraries
+## NOTE TO MYSELF: don't forget to set the user agent in case of mobile apps or something like
+RewriteRule (.*) - [F]
+
+# Strange URL
+RedirectMatch gone ^/_vti.*
+RedirectMatch gone ^/MSOffice.*
+RedirectMatch gone ^[-_a-z0-9/\.]*//.*
+RedirectMatch gone ^.*/etc/passwd.*
+
+# Suspicious XSS
+RewriteCond %{REQUEST_METHOD} (GET|POST) [NC]
+RewriteCond %{QUERY_STRING} ^(.*)(%3C|<)/?script(.*)$ [NC,OR]
+RewriteCond %{QUERY_STRING} ^(.*)(%3D|=)?javascript(%3A|:)(.*)$ [NC,OR]
+RewriteCond %{QUERY_STRING} ^(.*)document\.location\.href(.*)$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)(%3D|=)http(%3A|:)(/|%2F){2}(.*)$ [NC,OR] # Use with caution, will make GET based redirection to failed
+RewriteCond %{QUERY_STRING} ^(.*)base64_encode(.*)$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)GLOBALS(=|[|%[0-9A-Z]{0,2})(.*)$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)_REQUEST(=|[|%[0-9A-Z]{0,2})(.*)$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)(SELECT(%20|\+)|UNION(%20|\+)ALL|INSERT(%20|\+)|DELETE(%20|\+)|CHAR\(|UPDATE(%20|\+)|REPLACE(%20|\+)|LIMIT(%20|\+))(.*)$ [NC]
+RewriteRule (.*) - [F]
+
+# Suspicious SHELL
+RewriteCond %{REQUEST_URI} .*((php|my)?shell|remview.*|phpremoteview.*|sshphp.*|pcom|nstview.*|c99|r57|webadmin.*|phpget.*|phpwriter.*|fileditor.*|locus7.*|storm7.*)\.(p?s?x?htm?l?|txt|aspx?|cfml?|cgi|pl|php[3-9]{0,1}|jsp?|sql|xml) [NC,OR]
+RewriteCond %{REQUEST_METHOD} (GET|POST) [NC]
+#RewriteCond %{QUERY_STRING} ^(.*)=/home/loginftp/(.*)$ [OR] # MUST BE REMPLACED WITH ABSOLUTE PATH TO PARENT DIRECTORY OF WEB ROOT DIRECTORY
+RewriteCond %{QUERY_STRING} ^work_dir=.*$ [OR]
+RewriteCond %{QUERY_STRING} ^command=.*&output.*$ [OR]
+RewriteCond %{QUERY_STRING} ^nts_[a-z0-9_]{0,10}=.*$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)cmd=.*$ [OR] # Use this one with caution
+RewriteCond %{QUERY_STRING} ^c=(t|setup|codes)$ [OR]
+RewriteCond %{QUERY_STRING} ^act=((about|cmd|selfremove|chbd|trojan|backc|massbrowsersploit|exploits|grablogins|upload.*)|((chmod|f)&f=.*))$ [OR]
+RewriteCond %{QUERY_STRING} ^act=(ls|search|fsbuff|encoder|tools|processes|ftpquickbrute|security|sql|eval|update|feedback|cmd|gofile|mkfile)&d=.*$ [OR]
+RewriteCond %{QUERY_STRING} ^&?c=(l?v?i?&d=|v&fnot=|setup&ref=|l&r=|d&d=|tree&d|t&d=|e&d=|i&d=|codes|md5crack).*$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)([-_a-z]{1,15})=(ls|cd|cat|rm|mv|vim|chmod|chdir|concat|mkdir|rmdir|pwd|clear|whoami|uname|tar|zip|unzip|gzip|gunzip|grep|more|ln|umask|telnet|ssh|ftp|head|tail|which|mkmode|touch|logname|edit_file|search_text|find_text|php_eval|download_file|ftp_file_down|ftp_file_up|ftp_brute|mail_file|mysql|mysql_dump|db_query)([^a-zA-Z0-9].+)*$ [OR]
+RewriteCond %{QUERY_STRING} ^(.*)(wget|shell_exec|passthru|system|exec|popen|proc_open)(.*)$
+RewriteRule (.*) - [F]
+
+# Avoid access to unknown index files
+<Files ~ "^(index)\.(p?s?x?htm?|txt|aspx?|cfml?|cgi|pl|php[3-9]|jsp|xml)$">
+order allow,deny
+deny from all
+</Files>
+
+# Avoid access to system files
+<Files ~ "\.(inc|class|sql|ini|conf|exe|dll|bin|tpl|bkp|dat|c|h|py|spd|theme|module)$">
+deny from all
+</Files>
+
+# Avoid access to suspicious files
+<Files ~ "^(hacke?r?d?|[-_a-z0-9.]*mafia[-_a-z0-9.]*|[-_a-z0-9.]*power[-_a-z0-9.]*|[-_a-z0-9.]*jihad[-_a-z0-9.]*|shell|ssh|root|cmd|[0-9]{1,6}|test|data)\.(p?s?x?htm?l?|txt|aspx?|cfml?|cgi|pl|php[3-9]{0,1}|jsp?|sql|xml)$">
+order allow,deny
+deny from all
+</Files>
+
+
+## Disallow hotlinking
+##
+
+#TODO
+
+
+## URL rewrite rules for www redirection
+##
+
 #RewriteCond %{HTTP_HOST} !^skywodd\.net [NC]
 #RewriteCond %{HTTP_HOST} !^static.skywodd\.net [NC]
 #RewriteCond %{HTTP_HOST} !^$
 #RewriteRule ^/?(.*) http://skywodd.net/$1 [L,R=301,NE]
 
-# URL rewrite configuration for friendly url
+
+## URL rewrite rules for user-friendly url
+##
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php
-
