@@ -1,17 +1,16 @@
-# Directory /vendor/Skywodd
+# SkyWodd PHP Framework
+## By SkyWodd
 
 ---
-## Purpose
+### Overview
 
-All the fun is here.
-PHP classes anywhere !
+This PHP framework is in a heavy "work in progress" state.
 
----
-## Access
-
-Deny from all.
+**More details will be added in future releases**
 
 ---
-## Remarks
+### Remarks
 
-None, see doxygen documentation for more details.
+See doxygen documentation for more details.
+
+All your classes are belong to us !

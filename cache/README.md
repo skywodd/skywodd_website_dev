@@ -3,12 +3,12 @@
 ---
 ## Purpose
 
-This directory store all cached ressource files.
+This directory store all cached resource files (compiled template file, ...).
 
 ---
 ## Access
 
-Deny from all.
+Public access from web disallowed by htaccess.
 
 ---
 ## Remarks

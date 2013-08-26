@@ -3,15 +3,17 @@
 ---
 ## Purpose
 
-All PHP classes are stored here in subdirectories according PSR-0 standard.
+All PHP classes are stored here in subdirectories according to the PSR-0/PSR-1 standard.
+
+A PSR-0 compliant class loader is also available for fast and easy development (PSR0ClassLoader.php).
 
 ---
 ## Access
 
-Deny from all.
+Public access from web disallowed by htaccess.
 
 ---
 ## Remarks
 
-Do not forget to keep up-to-date each external PHP classes.
+Do not forget to keep up-to-date any external PHP classes.
 Evil script-kiddies are everywhere ...

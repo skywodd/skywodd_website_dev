@@ -3,20 +3,20 @@
 ---
 ## Purpose
 
-Directory for backup files.
+Storage directory for backup files.
 
-Stored in devellopment release :
+Files stored in development release :
 + Database structure files
-+ Database dump files
++ Database dummy-dump files
 + Any other backup files
 
-Stored in production release :
+Files stored in production release :
 + Private database backup
 
 ---
 ## Access
 
-Deny from all
+Public access from web disallowed by htaccess.
 
 ---
 ## Remarks

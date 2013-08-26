@@ -4,14 +4,19 @@
 ## Purpose
 
 All controllers for the website are stored here.
-As hierarchical MVC is used for the page rendering sub-directories will contain other sub-controllers.
+
+As hierarchical MVC design pattern is used for pages rendering sub-directories will contain other sub-controllers.
+See "Routing" framework branch for more details.
+
+Remarks: do not forget to respect your name convention, otherwise controllers files may be unusable or double-access (and duplicate content is bad !)
 
 ---
 ## Access
 
-Deny from all.
+Public access from web disallowed by htaccess.
 
 ---
 ## Remarks
 
-Controllers must be stored in sub-directories with self-explaining names.
+Controllers in the root directory MUST be fronts controllers.
+Sub-controllers must be stored in sub-directories with self-explaining names.

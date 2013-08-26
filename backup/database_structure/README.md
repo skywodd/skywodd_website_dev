@@ -5,7 +5,7 @@
 
 MySQL database structure definition.
 
-Are included :
+Are included in this directory :
 + Database schematic as image
 + Database structure creation script
 + MySQL Workbench project file
@@ -18,4 +18,4 @@ Same as parent directory.
 ---
 ## Remarks
 
-Only usefull in devellopment release.
+Only useful in development release, should be wipe in production release.
