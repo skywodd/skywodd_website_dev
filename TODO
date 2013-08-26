@@ -1,0 +1,20 @@
+Create a configuration/installation script with automatic :
+- Database and framework settings generation
+For all framework / site files:
+- CHMOD 505 for all directories
+- CHMOD 404 for all files (will make all files read-only)
+For all upload/working directories:
+- CHMOD 604 for files
+- CHMOD 705 for directories
+For all .htaccess files:
+- CHMOD 404
+
+In root htaccess:
+- disallow hotlinking of static resources files
+
+For database:
+- allow prefix for table
+
+For security:
+- create files signature check script
+- read http://phpsec.org/projects/guide/
