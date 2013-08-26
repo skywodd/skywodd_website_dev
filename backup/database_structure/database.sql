@@ -183,6 +183,7 @@ CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Category` (
   `ID` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(255) NOT NULL ,
   `Brief` TEXT NULL DEFAULT NULL ,
+  `Type` SMALLINT UNSIGNED NOT NULL ,
   `ParentID` INT NULL DEFAULT NULL ,
   `ChildCount` INT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`ID`) ,
@@ -507,6 +508,114 @@ CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`PublicationMeta` (
   CONSTRAINT `PublicationID_FK`
     FOREIGN KEY (`PublicationID` )
     REFERENCES `skywoddmaindb`.`Publication` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `skywoddmaindb`.`FileAttachmentMeta`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`FileAttachmentMeta` (
+  `AttachmentID` INT NOT NULL ,
+  `MetaType` SMALLINT NOT NULL ,
+  `SerializedValue` VARCHAR(255) NOT NULL ,
+  INDEX `PublicationID_FK_idx` (`AttachmentID` ASC) ,
+  CONSTRAINT `AttachmentID_FK`
+    FOREIGN KEY (`AttachmentID` )
+    REFERENCES `skywoddmaindb`.`FileAttachment` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `skywoddmaindb`.`UserMeta`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`UserMeta` (
+  `UserID` INT NOT NULL ,
+  `MetaType` SMALLINT NOT NULL ,
+  `SerializedValue` VARCHAR(255) NOT NULL ,
+  INDEX `PublicationID_FK_idx` (`UserID` ASC) ,
+  CONSTRAINT `UserID_FK`
+    FOREIGN KEY (`UserID` )
+    REFERENCES `skywoddmaindb`.`User` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `skywoddmaindb`.`SiteConfiguration`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`SiteConfiguration` (
+  `Key` SMALLINT UNSIGNED NOT NULL ,
+  `Group` SMALLINT UNSIGNED NOT NULL ,
+  `Value` VARCHAR(255) NULL DEFAULT NULL ,
+  PRIMARY KEY (`Key`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `skywoddmaindb`.`AnonymousUserEmail`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`AnonymousUserEmail` (
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `Email` VARCHAR(255) NOT NULL ,
+  PRIMARY KEY (`ID`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `skywoddmaindb`.`Newsletter`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`Newsletter` (
+  `ID` INT NOT NULL AUTO_INCREMENT ,
+  `Title` VARCHAR(255) NOT NULL ,
+  `Brief` TEXT NULL DEFAULT NULL ,
+  PRIMARY KEY (`ID`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `skywoddmaindb`.`NativeUserSubscription`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`NativeUserSubscription` (
+  `UserID` INT NOT NULL ,
+  `NewsletterID` INT NOT NULL ,
+  `SubscriptionKey` VARCHAR(255) NULL ,
+  PRIMARY KEY (`UserID`, `NewsletterID`) ,
+  INDEX `NewsletterID_FK_idx` (`NewsletterID` ASC) ,
+  CONSTRAINT `UserID_FK`
+    FOREIGN KEY (`UserID` )
+    REFERENCES `skywoddmaindb`.`User` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `NewsletterID_FK`
+    FOREIGN KEY (`NewsletterID` )
+    REFERENCES `skywoddmaindb`.`Newsletter` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `skywoddmaindb`.`AnonymousUserSubscription`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `skywoddmaindb`.`AnonymousUserSubscription` (
+  `AnonymousID` INT NOT NULL ,
+  `NewsletterID` INT NOT NULL ,
+  `SubscriptionKey` VARCHAR(255) NULL ,
+  PRIMARY KEY (`AnonymousID`, `NewsletterID`) ,
+  INDEX `NewsletterID_FK_idx` (`NewsletterID` ASC) ,
+  CONSTRAINT `AnonymousID_FK`
+    FOREIGN KEY (`AnonymousID` )
+    REFERENCES `skywoddmaindb`.`AnonymousUserEmail` (`ID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `NewsletterID_FK`
+    FOREIGN KEY (`NewsletterID` )
+    REFERENCES `skywoddmaindb`.`Newsletter` (`ID` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
