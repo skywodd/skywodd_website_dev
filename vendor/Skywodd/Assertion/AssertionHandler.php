@@ -3,10 +3,12 @@
 /**
  * Assertion handling toolkit
  * 
+ * This toolkit class handle PHP assertions and error display
+ * 
  * @author Fabien Batteix <skywodd@gmail.com>
  * @copyright Fabien Batteix 2013
- * @link http://skywodd.net
- * @package skywebsite
+ * @link http://skywodd.net My website
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3
  */
 /*
  * This file is part of Skywodd website.
@@ -29,7 +31,7 @@
 namespace Skywodd\Assertion;
 
 /**
- * Assertion handling management class
+ * Assertions management class
  * 
  * @version 1.0
  */
@@ -42,7 +44,7 @@ class AssertionHandler {
      * @param string $file File where the assertion has failed
      * @param string $line Line in file where the assertion has failed
      * @param string $code Code who has triggered the assertion
-     * @param string $desc Description of the assertion (if any)
+     * @param string|null $desc Description of the assertion (if any)
      */
     public static function handle($file, $line, $code, $desc = null) {
 
