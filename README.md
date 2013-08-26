@@ -14,7 +14,7 @@ No more restrictions, no more wordpress, just what I need when I need it.
 ---
 ### Why this repo ?
 
-This repository will store the lastest development version of my new skywodd website.
+This repository will store the latest development version of my new skywodd website.
 
 The source code is made to fit MY needs, but you can grab some parts of my code for your own projects.
 (but don't forget the license !)
@@ -33,7 +33,7 @@ The source code itself is published under the terms of the GPLv3 license.
 The source code is documented using the PHPDOC standard.
 I'v try to make the code documented as much as possible and in the most readable writing style.
 
-But english is definitly not my native language so don't cry if you see some horrible grammar errors.
+But english is definitely not my native language so don't cry if you see some horrible grammar errors.
 
 ---
 ### Technical details 
