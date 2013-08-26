@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Base configuration file, for installation directory settings.
+ * Base directory configuration file
  * 
  * This configuration file store all "base directory" settings of the website installation.
  * 
