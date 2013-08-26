@@ -5,8 +5,8 @@
  * 
  * @author Fabien Batteix <skywodd@gmail.com>
  * @copyright Fabien Batteix 2013
- * @link http://skywodd.net
- * @package skywebsite
+ * @link http://skywodd.net My website
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3
  */
 /*
  * This file is part of Skywodd website.
@@ -28,6 +28,9 @@
 /* PSR-0 compliant namespace */
 namespace Skywodd\Routing;
 
+/* Dependencies */
+use Skywodd\Routing\Route;
+
 /**
  * Route matcher implementation based on a regex => fixed controller name logic
  * 
@@ -45,7 +48,7 @@ class RegexRoute extends Route {
     /**
      * Mapping array for back references (\N -> $_GET[X])
      * 
-     * @var array
+     * @var string[]|null
      */
     protected $_backReferenceMapping = null;
 
@@ -54,7 +57,7 @@ class RegexRoute extends Route {
      * 
      * @param string $pathNodeRegex The path node regex who match with this route
      * @param string $controllerName The associated controller name
-     * @param array $backReferenceMapping Regex back references mapping rules (\N => varname in $_GET)
+     * @param string[]|null $backReferenceMapping Regex back references mapping rules (\N => varname in $_GET)
      */
     public function __construct($pathNodeRegex, $controllerName, $backReferenceMapping = null) {
 

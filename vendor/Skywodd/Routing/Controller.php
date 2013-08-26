@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Common interface for any controller class
+ * Common interface for all controller class.
  * 
  * @author Fabien Batteix <skywodd@gmail.com>
  * @copyright Fabien Batteix 2013
- * @link http://skywodd.net
- * @package skywebsite
+ * @link http://skywodd.net My website
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3
  */
 /*
  * This file is part of Skywodd website.
@@ -38,7 +38,7 @@ interface Controller {
     /**
      * Common controller constructor
      * 
-     * @param string $remainingPath Unprocessed part of the ressource path from the hierarchical routing process
+     * @param string $remainingPath Unprocessed part of the resource path from the hierarchical routing process
      */
     public function __construct($remainingPath);
 

@@ -1,12 +1,14 @@
 <?php
 
 /**
- * Hierarchical router for HMVC system design
+ * Hierarchical router system
+ * 
+ * This class implement the router part of the HMVC (Hierarchical Model View Controler) design patern.
  * 
  * @author Fabien Batteix <skywodd@gmail.com>
  * @copyright Fabien Batteix 2013
- * @link http://skywodd.net
- * @package skywebsite
+ * @link http://skywodd.net My website
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3
  */
 /*
  * This file is part of Skywodd website.
@@ -28,8 +30,11 @@
 /* PSR-0 compliant namespace */
 namespace Skywodd\Routing;
 
+/* Dependencies */
+use Skywodd\Routing\Route;
+
 /**
- * Hierarchical router part of HMVC system design
+ * Hierarchical router part of HMVC design patern
  *
  * @version 1.0
  */
@@ -117,7 +122,7 @@ class HierarchicalRouter {
      * The error controller will be called when an unknown path node is requested.
      * 
      * @since 1.0
-     * @param type $controllerName The new default error controller name
+     * @param string $controllerName The new default error controller name
      */
     public function setDefaultErrorController($controllerName) {
 
@@ -134,7 +139,7 @@ class HierarchicalRouter {
      * This function should be called as many times as necessary.
      * 
      * @since 1.0
-     * @param Route $r
+     * @param Route $r The route to add into the router rules
      */
     public function addRoute(Route $r) {
 
@@ -146,24 +151,24 @@ class HierarchicalRouter {
     }
 
     /**
-     * Run the router on the specified ressource path
-     * Do not forget to use the rebaseRessourcePath() function if you are not working in the web-root directory.
+     * Run the router on the specified resource path
+     * Do not forget to use the rebaseResourcePath() function before if you are not working in the web-root directory.
      * 
      * @since 1.0
-     * @param string $ressourcePath The input ressource path to process, should be rebased if necessary
+     * @param string $resourcePath The input resource path to process, should be rebased if necessary
      */
-    public function processRessourcePath($ressourcePath) {
+    public function processResourcePath($resourcePath) {
 
         /* Assert argument */
-        assert('isset($ressourcePath) && is_string($ressourcePath)');
+        assert('isset($resourcePath) && is_string($resourcePath)');
         assert('empty($this->_defaultHomeControllerName) === FALSE');
         assert('empty($this->_defaultErrorControllerName) === FALSE');
 
-        /* Trim slash at beginning of ressource path */
-        $ressourcePath = trim($ressourcePath, '/');
+        /* Trim slash at beginning of resource path */
+        $resourcePath = trim($resourcePath, '/');
 
         /* Get the first path node and remaining path string */
-        $pathNodes = explode('/', $ressourcePath, 2);
+        $pathNodes = explode('/', $resourcePath, 2);
         $pathNode = $pathNodes[0];
         $remainingPath = (count($pathNodes) == 2) ? $pathNodes[1] : '';
 
@@ -216,6 +221,9 @@ class HierarchicalRouter {
         /* Compute controller class name */
         $controllerClassName = basename($controllerFilename, self::CONTROLLER_EXTENSION);
 
+        /* Assert controler class */
+        assert('class_exists($controllerClassName, false)');
+        
         /* Instanciate controller */
         $controller = new $controllerClassName($controllerArgs);
 
@@ -224,27 +232,28 @@ class HierarchicalRouter {
     }
 
     /**
-     * Rebase (chroot like) a ressource path
-     * Turn absolute ressource paths like "/foo/bar" into "/bar" according base path (here "/foo").
+     * Rebase (chroot like) a resource path
+     * Turn absolute resource paths like "/foo/bar" into "/bar" according base path (here "/foo").
      * 
      * @since 1.0
-     * @param string $ressourcePath The absolute ressource path
-     * @param string $basePath The base path to remove from the absolute ressource path
-     * @return string The rebased ressource path
+     * @throws Exception (if unable to rebase the specified resource path)
+     * @param string $resourcePath The absolute resource path
+     * @param string $basePath The base path to remove from the absolute resource path
+     * @return string The rebased resource path
      */
-    public static function rebaseRessourcePath($ressourcePath, $basePath) {
+    public static function rebaseResourcePath($resourcePath, $basePath) {
 
         /* Assert arguments */
-        assert('isset($ressourcePath) && is_string($ressourcePath)');
+        assert('isset($resourcePath) && is_string($resourcePath)');
         assert('isset($basePath) && is_string($basePath)');
-        assert('strlen($basePath) <= strlen($ressourcePath)');
+        assert('strlen($basePath) <= strlen($resourcePath)');
 
         /* Check the base path */
-        if (substr($ressourcePath, 0, strlen($basePath)) !== $basePath)
-            throw new Exception("Cannot rebase '$ressourcePath' using '$basePath' as base !");
+        if (substr($resourcePath, 0, strlen($basePath)) !== $basePath)
+            throw new Exception("Cannot rebase '$resourcePath' using '$basePath' as base !");
 
-        /* Return the rebased ressource path */
-        return substr($ressourcePath, strlen($basePath));
+        /* Return the rebased resource path */
+        return substr($resourcePath, strlen($basePath));
     }
 
 }

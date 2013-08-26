@@ -5,8 +5,8 @@
  * 
  * @author Fabien Batteix <skywodd@gmail.com>
  * @copyright Fabien Batteix 2013
- * @link http://skywodd.net
- * @package skywebsite
+ * @link http://skywodd.net My website
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3
  */
 /*
  * This file is part of Skywodd website.
@@ -27,6 +27,9 @@
 
 /* PSR-0 compliant namespace */
 namespace Skywodd\Routing;
+
+/* Dependencies */
+use Skywodd\Routing\Route;
 
 /**
  * Route matcher implementation based on available controller files
