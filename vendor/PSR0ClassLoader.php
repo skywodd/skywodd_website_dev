@@ -6,8 +6,8 @@
  * @see http://groups.google.com/group/php-standards/web/final-proposal
  * @author Fabien Batteix <skywodd@gmail.com>
  * @copyright Fabien Batteix 2013
- * @link http://skywodd.net
- * @package skywebsite
+ * @link http://skywodd.net My website
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3
  */
 /*
  * This file is part of Skywodd website.
@@ -120,7 +120,7 @@ class PSR0ClassLoader {
         $fileName = str_replace(self::NAMESPACE_SEPARATOR, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . self::FILE_EXTENSION;
 
-        /* Last step : load the file ! */
+        /* Last step: load the file ! */
         require $this->_includePath . DIRECTORY_SEPARATOR . $fileName;
     }
 
