@@ -1,8 +1,9 @@
-# Filter for all robots
-User-agent: *
+# Filter for Alexa bot (GET THE FUCK OUT OF HERE)
+User-agent: ia_archiver
+Disallow: /
 
-# Avoid duplicate content by disallowing any URL with parameters (use url-rewrite only) 
-Disallow: /*?*
+# Filter for all other robots
+User-agent: *
 
 # Disallow backend directories
 Disallow: /backup
@@ -16,7 +17,7 @@ Disallow: /views
 Allow: /static
 Allow: /skyduino
 
-# Disallow backend controller
+# Disallow backend content
 Disallow: /admin
 Disallow: /user
 Disallow: /rpc
@@ -25,5 +26,5 @@ Disallow: /rpc
 Disallow: /cgi-bin
 Disallow: /*.php$
 
-# Not really usefull to be here but mom say to do that, so ...
+# Not really useful to be here but mom say to do that, so ...
 Sitemap: http://skywodd.net/sitemap.xml

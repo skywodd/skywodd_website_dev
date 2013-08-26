@@ -1,0 +1,7 @@
+# Public access to all files
+allow from all
+
+# Apache mod_indexer configuration
+## No indexes for all files
+Options -Indexes
+IndexIgnore */*
