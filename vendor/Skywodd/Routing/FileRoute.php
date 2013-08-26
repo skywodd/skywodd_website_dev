@@ -93,6 +93,9 @@ class FileRoute extends Route {
         assert('isset($pathNode) && is_string($pathNode)');
         assert('strrpos($pathNode, \'/\') === FALSE');
         
+        /* Clean up input */
+        $pathNode = preg_replace('/[^a-z0-9\\-\\_]/i', '', $pathNode);
+        
         /* Only lowercase path are matched to avoid duplicate-content */
         if (ctype_lower($pathNode) === False)
             return False;
